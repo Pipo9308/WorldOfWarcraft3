@@ -47,8 +47,8 @@ public class Chaman extends Personaje {
         this.restauracion = restauracion;
     }
 
-    public Chaman(String tipo_arma, String tipo_armadura, String rol, String restauracion, String nombre, int nivel, String raza, String tipo_clase, int vida, int mana, int fuerza, int inteligencia, int agilidad, int armadura) {
-        super(nombre, nivel, raza, tipo_clase, vida, mana, fuerza, inteligencia, agilidad, armadura);
+    public Chaman(String tipo_arma, String tipo_armadura, String rol, String restauracion, int id_personaje, String nombre, int nivel, String raza, String tipo_clase, int vida, int mana, int fuerza, int inteligencia, int agilidad, int armadura) {
+        super(id_personaje, nombre, nivel, raza, tipo_clase, vida, mana, fuerza, inteligencia, agilidad, armadura);
         this.tipo_arma = tipo_arma;
         this.tipo_armadura = tipo_armadura;
         this.rol = rol;
@@ -64,4 +64,6 @@ public class Chaman extends Personaje {
 
     public Chaman() {
     }
+
+    
 }

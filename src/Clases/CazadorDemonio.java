@@ -8,7 +8,7 @@ package Clases;
  *
  * @author felip
  */
-public class CazadorDemonio {
+public class CazadorDemonio extends Personaje {
     
     private String tipo_arma;
     private String tipo_armadura;
@@ -47,6 +47,14 @@ public class CazadorDemonio {
         this.venganza = venganza;
     }
 
+    public CazadorDemonio(String tipo_arma, String tipo_armadura, String rol, String venganza, int id_personaje, String nombre, int nivel, String raza, String tipo_clase, int vida, int mana, int fuerza, int inteligencia, int agilidad, int armadura) {
+        super(id_personaje, nombre, nivel, raza, tipo_clase, vida, mana, fuerza, inteligencia, agilidad, armadura);
+        this.tipo_arma = tipo_arma;
+        this.tipo_armadura = tipo_armadura;
+        this.rol = rol;
+        this.venganza = venganza;
+    }
+
     public CazadorDemonio(String tipo_arma, String tipo_armadura, String rol, String venganza) {
         this.tipo_arma = tipo_arma;
         this.tipo_armadura = tipo_armadura;
@@ -56,5 +64,10 @@ public class CazadorDemonio {
 
     public CazadorDemonio() {
     }
+
+   
+
     
+    
+   
 }

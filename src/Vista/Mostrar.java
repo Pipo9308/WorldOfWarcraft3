@@ -4,11 +4,22 @@
  */
 package Vista;
 
+import Clases.Personaje;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author felip
  */
 public class Mostrar extends javax.swing.JPanel {
+    
+    ArrayList<Personaje> listaPersonaje = new ArrayList();
 
     /**
      * Creates new form Mostrar
@@ -26,19 +37,152 @@ public class Mostrar extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        btnMostrar = new javax.swing.JButton();
+
+        setPreferredSize(new java.awt.Dimension(600, 400));
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "Nombre", "Nivel", "Raza", "Clase", "Vida", "Mana", "Fuerza", "Inteligencia", "Agilidad", "Armadura"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, true, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
+
+        btnMostrar.setText("Mostrar");
+        btnMostrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMostrarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(47, 47, 47)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 763, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(345, 345, 345)
+                        .addComponent(btnMostrar)))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
+                .addComponent(btnMostrar)
+                .addGap(26, 26, 26))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarActionPerformed
+        // TODO add your handling code here:
+        
+        try {
+            // Configuración de la conexión a la base de datos
+            String url = "jdbc:mysql://localhost:3306/worldofwarcraft";
+            String usuario = "root";
+            String contraseña = "";
+
+            // Establecer la conexión
+            Connection conexion = DriverManager.getConnection(url, usuario, contraseña);
+
+            // Crear la sentencia SQL para la consulta
+            String sql = "SELECT * FROM personaje";
+
+            // Crear el PreparedStatement y ejecutar la consulta
+            try (PreparedStatement preparedStatement = conexion.prepareStatement(sql)) {
+                ResultSet resultSet = preparedStatement.executeQuery();
+
+                // Procesar los resultados
+                while (resultSet.next()) {
+                    Personaje personaje = new Personaje(
+                            resultSet.getInt("id_personaje"),
+                            resultSet.getString("nombre"),
+                            resultSet.getInt("nivel"),
+                            resultSet.getString("raza"),
+                            resultSet.getString("tipo_clase"),
+                            resultSet.getInt("vida"),
+                            resultSet.getInt("mana"),
+                            resultSet.getInt("fuerza"),
+                            resultSet.getInt("inteligencia"),
+                            resultSet.getInt("agilidad"),
+                            resultSet.getInt("armadura")
+                            
+                    );
+
+                    listaPersonaje.add(personaje);
+
+                }
+                LlenarTabla();
+                
+            }
+
+            // Cerrar la conexión
+            conexion.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Manejo de errores
+        }
+
+                                              
+        
+    }//GEN-LAST:event_btnMostrarActionPerformed
+
+    private void LlenarTabla() {
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0); // Clear the existing table data
+
+        for (Personaje personaje : listaPersonaje) {
+            Object[] rowData = {
+                personaje.getId_personaje(),
+                personaje.getNombre(),
+                personaje.getNivel(),
+                personaje.getRaza(),
+                personaje.getTipo_clase(),
+                personaje.getVida(),
+                personaje.getMana(),
+                personaje.getFuerza(),
+                personaje.getInteligencia(),
+                personaje.getAgilidad(),
+                personaje.getArmadura()
+            };
+            model.addRow(rowData);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnMostrar;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }

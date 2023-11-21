@@ -13,7 +13,6 @@ public class Guerrero extends Personaje{
     private String tipo_arma;
     private String tipo_armadura;
     private String furia;
-    private String rol;
 
     public String getTipo_arma() {
         return tipo_arma;
@@ -46,9 +45,13 @@ public class Guerrero extends Personaje{
     public void setRol(String rol) {
         this.rol = rol;
     }
+    private String rol;
 
-    public Guerrero(String tipo_arma, String tipo_armadura, String furia, String rol, String nombre, int nivel, String raza, String tipo_clase, int vida, int mana, int fuerza, int inteligencia, int agilidad, int armadura) {
-        super(nombre, nivel, raza, tipo_clase, vida, mana, fuerza, inteligencia, agilidad, armadura);
+    public Guerrero() {
+    }
+
+    public Guerrero(String tipo_arma, String tipo_armadura, String furia, String rol, int id_personaje, String nombre, int nivel, String raza, String tipo_clase, int vida, int mana, int fuerza, int inteligencia, int agilidad, int armadura) {
+        super(id_personaje, nombre, nivel, raza, tipo_clase, vida, mana, fuerza, inteligencia, agilidad, armadura);
         this.tipo_arma = tipo_arma;
         this.tipo_armadura = tipo_armadura;
         this.furia = furia;
@@ -62,8 +65,7 @@ public class Guerrero extends Personaje{
         this.rol = rol;
     }
 
-    public Guerrero() {
-    }
+   
     
     
     
